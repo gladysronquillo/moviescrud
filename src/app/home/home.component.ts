@@ -9,15 +9,33 @@ import {Movie} from '../interfaces/movie';
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-    API_ENDPOINT = 'http://192.168.99.100:8001/apirestcrud/public';
     movies: Movie[];
-    constructor(private movieService: MoviesService, private httpClient: HttpClient) {
-        httpClient.get(this.API_ENDPOINT + '/movies').subscribe((data: Movie[]) => {
+
+    constructor(private movieService: MoviesService) {
+        this.getMovies();
+    }
+
+    getMovies() {
+        this.movieService.get().subscribe((data: Movie[]) => {
             this.movies = data;
+        }, (error) => {
+            console.log(error);
+            alert('ocuurrió un error');
         });
     }
 
     ngOnInit() {
     }
 
+    delete(id) {
+        if (confirm('Seguro que deseas eliminar esta película?')) {
+            this.movieService.delete(id).subscribe((data) => {
+                alert('Eliminado con éxito');
+                this.getMovies();
+                console.log(data);
+            }, (error) => {
+                console.log(error);
+            });
+        }
+    }
 }
