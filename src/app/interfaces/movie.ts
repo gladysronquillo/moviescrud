@@ -1,4 +1,4 @@
-export interface Movie{
+export interface Movie {
     id?: number;
     name: string;
     description: string;
@@ -6,5 +6,5 @@ export interface Movie{
     year: number;
     duration: string;
     created_at?: string;
-    update_at?:string;
+    update_at?: string;
 }
